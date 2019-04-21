@@ -5,7 +5,6 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
     bl_idname = "anim.tweak_easing"
     bl_label = "Tweak keyframe easing"
 
-
     override_back: bpy.props.BoolProperty(name="Override back", default=True)
     back: bpy.props.FloatProperty(name="Back overshoot", default=0.0)
 
@@ -15,8 +14,8 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
     override_amplitude: bpy.props.BoolProperty(name="Override amplitude", default=True)
     amplitude: bpy.props.FloatProperty(name="Bounce amplitude", default=0.0)
 
-    override_interpolate: bpy.props.BoolProperty(name="Override interpolate", default=True)
-    interpolate_type: bpy.props.EnumProperty(items=[
+    override_interpolation: bpy.props.BoolProperty(name="Override interpolate", default=True)
+    interpolation: bpy.props.EnumProperty(items=[
         ('CONSTANT', 'CONSTANT', 'CONSTANT'),
         ('LINEAR', 'LINEAR', 'LINEAR'),
         ('BEZIER', 'BEZIER', 'BEZIER'),
@@ -32,17 +31,15 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ('ELASTIC', 'ELASTIC', 'ELASTIC')
         ], name="Interpolation type")
 
-
     override_easing: bpy.props.BoolProperty(name="Override easing", default=True)
-    easing_type: bpy.props.EnumProperty(items=[
+    easing: bpy.props.EnumProperty(items=[
         ('AUTO', 'AUTO', 'AUTO'),
         ('EASE_IN', 'EASE_IN', 'EASE_IN'),
         ('EASE_OUT', 'EASE_OUT', 'EASE_OUT'),
         ('EASE_IN_OUT', 'EASE_IN_OUT', 'EASE_IN_OUT')
         ], name="Easing type")
 
-
-    override_keyframe_type: bpy.props.BoolProperty(name="Override keyframe type", default=True)
+    override_type: bpy.props.BoolProperty(name="Override keyframe type", default=True)
     keyframe_type: bpy.props.EnumProperty(items=[
         ('KEYFRAME', 'KEYFRAME', 'KEYFRAME'),
         ('BREAKDOWN', 'BREAKDOWN', 'BREAKDOWN'),
@@ -55,10 +52,38 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
     vertical_position_fudge: bpy.props.FloatProperty(name="Vertical position fudge", default=0.0)
 
     def execute(self, context):
+        for a in bpy.data.actions:
+            for f in a.fcurves:
+                points = f.keyframe_points
+                for p in points:
+                    if not p.select_control_point:
+                        continue
 
-        message = "Popup Values"
+                    if self.override_easing:
+                        p.easing =  self.easing
 
-        self.report({'INFO'}, message)
+                    if self.override_interpolation:
+                        p.interpolation = self.interpolation
+
+                    if self.override_back:
+                        p.back = self.back
+
+                    if self.override_period:
+                        p.period = self.period
+
+                    if self.override_amplitude:
+                        p.amplitude = self.amplitude
+
+                    if self.override_type:
+                        p.type = self.keyframe_type
+
+                    t,v = p.co
+
+                    p.co = (t + random() * self.horizontal_position_fudge - (self.horizontal_position_fudge / 2), v + random() * self.vertical_position_fudge - (self.vertical_position_fudge / 2))
+
+        f.update()
+
+        self.report({'INFO'}, 'Done!')
         return {'FINISHED'}
 
     def invoke(self, context, event):
