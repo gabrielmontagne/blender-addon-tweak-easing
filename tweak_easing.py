@@ -5,16 +5,16 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
     bl_idname = "anim.tweak_easing"
     bl_label = "Tweak keyframe easing"
 
-    override_back: bpy.props.BoolProperty(name="Override back", default=True)
+    override_back: bpy.props.BoolProperty(name="Override back", default=False)
     back: bpy.props.FloatProperty(name="Back overshoot", default=0.0)
 
-    override_period: bpy.props.BoolProperty(name="Override period", default=True)
+    override_period: bpy.props.BoolProperty(name="Override period", default=False)
     period: bpy.props.FloatProperty(name="Elastic period", default=0.0)
 
-    override_amplitude: bpy.props.BoolProperty(name="Override amplitude", default=True)
+    override_amplitude: bpy.props.BoolProperty(name="Override amplitude", default=False)
     amplitude: bpy.props.FloatProperty(name="Bounce amplitude", default=0.0)
 
-    override_interpolation: bpy.props.BoolProperty(name="Override interpolate", default=True)
+    override_interpolation: bpy.props.BoolProperty(name="Override interpolate", default=False)
     interpolation: bpy.props.EnumProperty(items=[
         ('CONSTANT', 'CONSTANT', 'CONSTANT'),
         ('LINEAR', 'LINEAR', 'LINEAR'),
@@ -31,7 +31,7 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ('ELASTIC', 'ELASTIC', 'ELASTIC')
         ], name="Interpolation type")
 
-    override_easing: bpy.props.BoolProperty(name="Override easing", default=True)
+    override_easing: bpy.props.BoolProperty(name="Override easing", default=False)
     easing: bpy.props.EnumProperty(items=[
         ('AUTO', 'AUTO', 'AUTO'),
         ('EASE_IN', 'EASE_IN', 'EASE_IN'),
@@ -39,7 +39,7 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ('EASE_IN_OUT', 'EASE_IN_OUT', 'EASE_IN_OUT')
         ], name="Easing type")
 
-    override_type: bpy.props.BoolProperty(name="Override keyframe type", default=True)
+    override_type: bpy.props.BoolProperty(name="Override keyframe type", default=False)
     keyframe_type: bpy.props.EnumProperty(items=[
         ('KEYFRAME', 'KEYFRAME', 'KEYFRAME'),
         ('BREAKDOWN', 'BREAKDOWN', 'BREAKDOWN'),
@@ -88,7 +88,6 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
 
     def invoke(self, context, event):
         wm = context.window_manager
-        print('invoke', self)
         return wm.invoke_props_dialog(self)
 
 def register():
