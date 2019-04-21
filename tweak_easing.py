@@ -5,10 +5,17 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
     bl_idname = "anim.tweak_easing"
     bl_label = "Tweak keyframe easing"
 
-    my_float: bpy.props.FloatProperty(name="Some Floating×Γ ---- nt")
-    my_bool: bpy.props.BoolProperty(name="Toggle OOOO")
-    my_string: bpy.props.StringProperty(name="StringyValue")
 
+    override_back: bpy.props.BoolProperty(name="Override back", default=True)
+    back: bpy.props.FloatProperty(name="Back overshoot", default=0.0)
+
+    override_period: bpy.props.BoolProperty(name="Override period", default=True)
+    period: bpy.props.FloatProperty(name="Elastic period", default=0.0)
+
+    override_amplitude: bpy.props.BoolProperty(name="Override amplitude", default=True)
+    amplitude: bpy.props.FloatProperty(name="Bounce amplitude", default=0.0)
+
+    override_interpolate: bpy.props.BoolProperty(name="Override interpolate", default=True)
     interpolate_type: bpy.props.EnumProperty(items=[
         ('CONSTANT', 'CONSTANT', 'CONSTANT'),
         ('LINEAR', 'LINEAR', 'LINEAR'),
@@ -26,6 +33,7 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ], name="Interpolation type")
 
 
+    override_easing: bpy.props.BoolProperty(name="Override easing", default=True)
     easing_type: bpy.props.EnumProperty(items=[
         ('AUTO', 'AUTO', 'AUTO'),
         ('EASE_IN', 'EASE_IN', 'EASE_IN'),
@@ -34,6 +42,7 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ], name="Easing type")
 
 
+    override_keyframe_type: bpy.props.BoolProperty(name="Override keyframe type", default=True)
     keyframe_type: bpy.props.EnumProperty(items=[
         ('KEYFRAME', 'KEYFRAME', 'KEYFRAME'),
         ('BREAKDOWN', 'BREAKDOWN', 'BREAKDOWN'),
@@ -42,12 +51,12 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ('JITTER', 'JITTER', 'JITTER')
         ], name="Keyframe type")
 
+    horizontal_position_fudge: bpy.props.FloatProperty(name="Horizontal position fudge", default=0)
+    vertical_position_fudge: bpy.props.FloatProperty(name="Vertical position fudge", default=0.0)
+
     def execute(self, context):
 
-        message = "Popup Values: %f, %d, '%s'" % \
-            (self.my_float, self.my_bool, self.my_string)
-
-        print('tons?', self.fixed_items)
+        message = "Popup Values"
 
         self.report({'INFO'}, message)
         return {'FINISHED'}
