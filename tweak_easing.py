@@ -1,6 +1,24 @@
 import bpy
 from random import random
 
+class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
+    bl_idname = "anim.random_select"
+    bl_label = "Select random keyframe"
+
+    probability: bpy.props.FloatProperty(name="Selection probabilty")
+
+    def invoke(self, context, event):
+        wm = context.window_manager
+        return wm.invoke_props_dialog(self)
+
+    def execute(self, context):
+        for a in bpy.data.actions:
+            for f in a.fcurves:
+                points = f.keyframe_points
+                for p in points:
+                    p.select_control_point = self.probability >= random()
+        return {'FINISHED'}
+
 class TWEAK_EASING_OT_op(bpy.types.Operator):
     bl_idname = "anim.tweak_easing"
     bl_label = "Tweak keyframe easing"
@@ -92,9 +110,11 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
 
 def register():
     bpy.utils.register_class(TWEAK_EASING_OT_op)
+    bpy.utils.register_class(RANDOM_KEYFRAME_OT_select)
 
 def unregister():
     bpy.utils.unregister_class(TWEAK_EASING_OT_op)
+    bpy.utils.unregister_class(RANDOM_KEYFRAME_OT_select)
 
 if __name__ == "__main__":
     register()
