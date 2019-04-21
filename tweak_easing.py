@@ -1,6 +1,16 @@
 import bpy
 from random import random
 
+bl_info = {
+    'name': 'Select and tweak keyframe interpolations',
+    'author': 'gabriel montagné, gabriel@tibas.london',
+    'version': (0, 0, 1),
+    'blender': (2, 80, 0),
+    'description': 'Select and tweak easings and interpolations of animation keyframes',
+    'tracker_url': 'https://github.com/gabrielmontagne/blender-addon-tweak-easing/issues',
+    'category': 'Render'
+}
+
 class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
     bl_idname = "anim.random_select"
     bl_label = "Select random keyframe"

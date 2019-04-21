@@ -1,0 +1,12 @@
+= Select and tweak keyframe interpolations
+
+Select and tweak easings and interpolations of animation keyframes
+
+To use, search operators for:
+
+"Select random keyframe"
+
+or 
+
+"Tweak keyframe easing"
+
