@@ -59,7 +59,7 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         ('BACK', 'BACK', 'BACK'),
         ('BOUNCE', 'BOUNCE', 'BOUNCE'),
         ('ELASTIC', 'ELASTIC', 'ELASTIC')
-        ], name="Interpolation type")
+        ], name="Interpolation type", default='LINEAR')
 
     override_easing: bpy.props.BoolProperty(name="Override easing", default=False)
     easing: bpy.props.EnumProperty(items=[
