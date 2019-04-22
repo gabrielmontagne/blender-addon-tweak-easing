@@ -1,6 +1,6 @@
 = Select and tweak keyframe interpolations
 
-Select and tweak easings and interpolations of animation keyframes
+Select and tweak easings and interpolations of animation keyframes in the Graph Editor
 
 To use, search operators for:
 

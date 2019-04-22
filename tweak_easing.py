@@ -14,8 +14,9 @@ bl_info = {
 class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
     bl_idname = "anim.random_select"
     bl_label = "Select random keyframe"
+    bl_options = {'PRESET'}
 
-    probability: bpy.props.FloatProperty(name="Selection probabilty")
+    probability: bpy.props.FloatProperty(name="Selection probabilty", default=0.5, min=0.0, max=1.0)
 
     def invoke(self, context, event):
         wm = context.window_manager
@@ -32,6 +33,7 @@ class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
 class TWEAK_EASING_OT_op(bpy.types.Operator):
     bl_idname = "anim.tweak_easing"
     bl_label = "Tweak keyframe easing"
+    bl_options = {'PRESET'}
 
     override_back: bpy.props.BoolProperty(name="Override back", default=False)
     back: bpy.props.FloatProperty(name="Back overshoot", default=0.0)
