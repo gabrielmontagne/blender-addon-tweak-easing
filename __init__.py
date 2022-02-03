@@ -12,7 +12,7 @@ bl_info = {
 }
 
 class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
-    bl_idname = "anim.random_select"
+    bl_idname = "rojored.random_select"
     bl_label = "Select random keyframe"
     bl_options = {'PRESET'}
 
@@ -31,7 +31,7 @@ class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
         return {'FINISHED'}
 
 class TWEAK_EASING_OT_op(bpy.types.Operator):
-    bl_idname = "anim.tweak_easing"
+    bl_idname = "rojored.tweak_easing"
     bl_label = "Tweak keyframe easing"
     bl_options = {'PRESET'}
 
@@ -120,13 +120,33 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         wm = context.window_manager
         return wm.invoke_props_dialog(self)
 
+class SET_LOCROT_KEYING_SET_OT(bpy.types.Operator):
+    bl_idname = "rojored.set_locrot_keying_set"
+    bl_label = "Set Loc Rot keying set"
+
+    def execute(self, context):
+        bpy.ops.anim.keying_set_active_set(type='BUILTIN_KSI_LocRot')
+        return {'FINISHED'}
+
+class SET_LOCROTSCALE_KEYING_SET_OT(bpy.types.Operator):
+    bl_idname = "rojored.set_locrotsca_keying_set"
+    bl_label = "Set Loc Rot Scale keying set"
+
+    def execute(self, context):
+        bpy.ops.anim.keying_set_active_set(type='LocRotScale')
+        return {'FINISHED'}
+
 def register():
     bpy.utils.register_class(TWEAK_EASING_OT_op)
     bpy.utils.register_class(RANDOM_KEYFRAME_OT_select)
+    bpy.utils.register_class(SET_LOCROTSCALE_KEYING_SET_OT)
+    bpy.utils.register_class(SET_LOCROT_KEYING_SET_OT)
 
 def unregister():
     bpy.utils.unregister_class(TWEAK_EASING_OT_op)
     bpy.utils.unregister_class(RANDOM_KEYFRAME_OT_select)
+    bpy.utils.unregister_class(SET_LOCROTSCALE_KEYING_SET_OT)
+    bpy.utils.unregister_class(SET_LOCROT_KEYING_SET_OT)
 
 if __name__ == "__main__":
     register()
