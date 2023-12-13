@@ -11,6 +11,18 @@ bl_info = {
     'category': 'Render'
 }
 
+class CENTER_2D_CURSOR_VALUE_OT_op(bpy.types.Operator):
+    bl_idname = "rojored.center_2d_cursor_value"
+    bl_label = "Center 2D cursor value on graph editor"
+
+    @classmethod
+    def poll(cls, context):
+        return contex.space_data_.type == 'GRAPH_EDITOR'
+
+    def execute(self, context):
+        context.space_data.cursor_position_y = 0
+        return {'FINISHED'}
+
 class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
     bl_idname = "rojored.random_select"
     bl_label = "Select random keyframe"
@@ -139,12 +151,14 @@ class SET_LOCROTSCALE_KEYING_SET_OT(bpy.types.Operator):
 def register():
     bpy.utils.register_class(TWEAK_EASING_OT_op)
     bpy.utils.register_class(RANDOM_KEYFRAME_OT_select)
+    bpy.utils.register_class(CENTER_2D_CURSOR_VALUE_OT_op)
     bpy.utils.register_class(SET_LOCROTSCALE_KEYING_SET_OT)
     bpy.utils.register_class(SET_LOCROT_KEYING_SET_OT)
 
 def unregister():
     bpy.utils.unregister_class(TWEAK_EASING_OT_op)
     bpy.utils.unregister_class(RANDOM_KEYFRAME_OT_select)
+    bpy.utils.unregister_class(CENTER_2D_CURSOR_VALUE_OT_op)
     bpy.utils.unregister_class(SET_LOCROTSCALE_KEYING_SET_OT)
     bpy.utils.unregister_class(SET_LOCROT_KEYING_SET_OT)
 
