@@ -17,7 +17,7 @@ class CENTER_2D_CURSOR_VALUE_OT_op(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        return contex.space_data_.type == 'GRAPH_EDITOR'
+        return context.space_data.type == 'GRAPH_EDITOR'
 
     def execute(self, context):
         context.space_data.cursor_position_y = 0
