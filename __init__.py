@@ -158,7 +158,14 @@ class INSERT_KEYFRAME_ON_FOLLOWING_MARKERS(Operator):
         return context.active_object and context.active_object.type == 'ARMATURE' and context.active_object.mode == 'POSE'
 
     def execute(self, context):
-        print('insert keyframes on following markers')
+        scene = context.scene
+        print(f'insert keyframes on following markers from «{scene.frame_current}»')
+        keyframes = [m for m in sorted(list(scene.timeline_markers), key=lambda m:m.frame) if m.frame >= scene.frame_current]
+        print(keyframes, self.bl_idname)
+
+        for k in keyframes:
+            print(k.name, k.frame)
+
         return {'FINISHED'}
 
 def register():
