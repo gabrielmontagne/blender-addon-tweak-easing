@@ -1,5 +1,6 @@
 import bpy
 from random import random
+from bpy.types import Operator
 
 bl_info = {
     'name': 'Select and tweak keyframe interpolations',
@@ -11,7 +12,7 @@ bl_info = {
     'category': 'Render'
 }
 
-class CENTER_2D_CURSOR_VALUE_OT_op(bpy.types.Operator):
+class CENTER_2D_CURSOR_VALUE_OT_op(Operator):
     bl_idname = "rojored.center_2d_cursor_value"
     bl_label = "Center 2D cursor value on graph editor"
 
@@ -23,7 +24,7 @@ class CENTER_2D_CURSOR_VALUE_OT_op(bpy.types.Operator):
         context.space_data.cursor_position_y = 0
         return {'FINISHED'}
 
-class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
+class RANDOM_KEYFRAME_OT_select(Operator):
     bl_idname = "rojored.random_select"
     bl_label = "Select random keyframe"
     bl_options = {'PRESET'}
@@ -42,7 +43,7 @@ class RANDOM_KEYFRAME_OT_select(bpy.types.Operator):
                     p.select_control_point = self.probability >= random()
         return {'FINISHED'}
 
-class TWEAK_EASING_OT_op(bpy.types.Operator):
+class TWEAK_EASING_OT_op(Operator):
     bl_idname = "rojored.tweak_easing"
     bl_label = "Tweak keyframe easing"
     bl_options = {'PRESET'}
@@ -132,7 +133,7 @@ class TWEAK_EASING_OT_op(bpy.types.Operator):
         wm = context.window_manager
         return wm.invoke_props_dialog(self)
 
-class SET_LOCROT_KEYING_SET_OT(bpy.types.Operator):
+class SET_LOCROT_KEYING_SET_OT(Operator):
     bl_idname = "rojored.set_locrot_keying_set"
     bl_label = "Set Loc Rot keying set"
 
@@ -140,12 +141,24 @@ class SET_LOCROT_KEYING_SET_OT(bpy.types.Operator):
         bpy.ops.anim.keying_set_active_set(type='BUILTIN_KSI_LocRot')
         return {'FINISHED'}
 
-class SET_LOCROTSCALE_KEYING_SET_OT(bpy.types.Operator):
+class SET_LOCROTSCALE_KEYING_SET_OT(Operator):
     bl_idname = "rojored.set_locrotsca_keying_set"
     bl_label = "Set Loc Rot Scale keying set"
 
     def execute(self, context):
         bpy.ops.anim.keying_set_active_set(type='LocRotScale')
+        return {'FINISHED'}
+
+class INSERT_KEYFRAME_ON_FOLLOWING_MARKERS(Operator):
+    bl_idname = "rojored.insert_keyframes_following_markers"
+    bl_label = "Insert keyframes on following markers"
+
+    @classmethod
+    def poll(cls, context):
+        return context.active_object and context.active_object.type == 'ARMATURE' and context.active_object.mode == 'POSE'
+
+    def execute(self, context):
+        print('insert keyframes on following markers')
         return {'FINISHED'}
 
 def register():
@@ -154,8 +167,10 @@ def register():
     bpy.utils.register_class(CENTER_2D_CURSOR_VALUE_OT_op)
     bpy.utils.register_class(SET_LOCROTSCALE_KEYING_SET_OT)
     bpy.utils.register_class(SET_LOCROT_KEYING_SET_OT)
+    bpy.utils.register_class(INSERT_KEYFRAME_ON_FOLLOWING_MARKERS)
 
 def unregister():
+    bpy.utils.unregister_class(INSERT_KEYFRAME_ON_FOLLOWING_MARKERS)
     bpy.utils.unregister_class(TWEAK_EASING_OT_op)
     bpy.utils.unregister_class(RANDOM_KEYFRAME_OT_select)
     bpy.utils.unregister_class(CENTER_2D_CURSOR_VALUE_OT_op)
