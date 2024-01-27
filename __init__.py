@@ -151,7 +151,7 @@ class SET_LOCROTSCALE_KEYING_SET_OT(Operator):
 
 class INSERT_KEYFRAME_ON_FOLLOWING_MARKERS(Operator):
     bl_idname = "rojored.insert_keyframes_following_markers"
-    bl_label = "Insert keyframes on following markers"
+    bl_label = "Insert keyframes for selected bones on following markers"
 
     @classmethod
     def poll(cls, context):
@@ -159,12 +159,11 @@ class INSERT_KEYFRAME_ON_FOLLOWING_MARKERS(Operator):
 
     def execute(self, context):
         scene = context.scene
-        print(f'insert keyframes on following markers from «{scene.frame_current}»')
-        keyframes = [m for m in sorted(list(scene.timeline_markers), key=lambda m:m.frame) if m.frame >= scene.frame_current]
-        print(keyframes, self.bl_idname)
-
-        for k in keyframes:
-            print(k.name, k.frame)
+        frame_current = scene.frame_current
+        makers = [m for m in sorted(list(scene.timeline_markers), key=lambda m:m.frame) if m.frame >= frame_current]
+        for k in makers:
+            scene.frame_current = k.frame
+            bpy.ops.anim.keyframe_insert_by_name(type='WholeCharacterSelected')
 
         return {'FINISHED'}
 
